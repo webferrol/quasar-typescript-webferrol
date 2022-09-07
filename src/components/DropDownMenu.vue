@@ -3,7 +3,7 @@
     <div class="dropdown-list">
       <q-list>
         <q-item-label header>Acceso</q-item-label>
-        <q-item clickable v-close-popup tabindex="0">
+        <q-item :to="{name:'SignIn'}" clickable v-close-popup tabindex="0">
           <q-item-section avatar>
             <q-avatar icon="login" color="secondary" text-color="white" />
           </q-item-section>
@@ -13,13 +13,13 @@
           </q-item-section>
         </q-item>
         <q-separator inset spaced />
-        <q-item-label header>Files</q-item-label>
-        <q-item v-for="n in 3" :key="`y.${n}`" clickable v-close-popup tabindex="0">
+        <q-item-label header>Archivos</q-item-label>
+        <q-item clickable v-close-popup tabindex="0">
           <q-item-section avatar>
             <q-avatar icon="assignment" color="primary" text-color="white" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>Vacation</q-item-label>
+            <q-item-label>Curriculum</q-item-label>
             <q-item-label caption>February 22, 2016</q-item-label>
           </q-item-section>
           <q-item-section side>

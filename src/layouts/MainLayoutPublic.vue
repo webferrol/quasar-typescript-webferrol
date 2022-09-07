@@ -4,7 +4,7 @@
         <q-header reveal bordered class="bg-primary text-white">
 
             <q-toolbar class="shadow-2 rounded-borders">
-                <q-toolbar-title>WebFerrol</q-toolbar-title>
+                <q-toolbar-title><q-btn no-caps flat label="WebFerrol" size="lg" :to="{name: 'Home'}" /></q-toolbar-title>
                 <drop-down-menu></drop-down-menu>
             </q-toolbar>
 
@@ -29,9 +29,7 @@
         as child of QToolbar
       -->
                 <q-tabs v-model="tab"  shrink>
-                    <q-tab name="tab1" label="Tab 1" />
-                    <q-tab name="tab2" label="Tab 2" />
-                    <q-tab name="tab3" label="Tab 3" />
+                    <q-route-tab name="tab1" :to="{name: 'WorkExperience'}" label="Experiencia laboral" />
                 </q-tabs>
             </q-toolbar>
         </q-footer>

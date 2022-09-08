@@ -1,13 +1,33 @@
 <template>
     <q-page padding>
-        Experiencia laboral
+        <div v-if="loading">
+            Cargando
+        </div>
+        <div else>
+            <div v-if="getExperiencesLength">
+                <pre>
+                    {{experiences}}
+                </pre>
+            </div>
+        </div>
+        <div v-if="error">
+            {{error}} Ahh
+        </div>
     </q-page>
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
+import { storeToRefs } from 'pinia'
 import { useStoreExperiences } from 'src/stores/experiences';
-const { experiences } =  storeToRefs<any>(useStoreExperiences());
+
+const storeExperiences = useStoreExperiences();
+const { setExperiences } = storeExperiences;
+const { getExperiencesLength, experiences, loading, error } =   storeToRefs(storeExperiences);
+
+setExperiences('workExperience','dateEnd');
+
+
+
     
 </script>
 

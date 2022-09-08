@@ -16,12 +16,14 @@ const year: Ref<string | number> = ref('2020')
 year.value = 2020 // ok!
 ```
 
-2. O esta otra Opción
+2. Opción dos:
 ```TypeScript
-import { ref } from 'vue'
-import type { Ref } from 'vue'
-
-const year: Ref<string | number> = ref('2020')
+// resulting type: Ref<string | number>
+const year = ref<string | number>('2020')
 
 year.value = 2020 // ok!
 ```
+
+## Conceptos de pinia
+
+### [storeToRefs](https://pinia.vuejs.org/api/modules/pinia.html#storetorefs)

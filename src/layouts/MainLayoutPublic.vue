@@ -29,7 +29,7 @@
         as child of QToolbar
       -->
                 <q-tabs v-model="tab"  shrink>
-                    <q-route-tab name="tab1" :to="{name: 'WorkExperience'}" label="Experiencia laboral" />
+                    <q-route-tab no-caps name="tab1" :to="{name: 'WorkExperience'}" label="Experiencia laboral" />
                 </q-tabs>
             </q-toolbar>
         </q-footer>

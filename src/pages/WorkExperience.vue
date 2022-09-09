@@ -1,15 +1,6 @@
 <template>
     <q-page padding>
-        <div v-if="loading">
-            Cargando
-        </div>
-        <div else>
-            <div v-if="getExperiencesLength">
-                <pre>
-                    {{experiences}}
-                </pre>
-            </div>
-        </div>
+        <experiences-masonry :loading="loading" :rows="experiences"></experiences-masonry>
         <div v-if="error">
             {{error}} Ahh
         </div>
@@ -19,6 +10,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { useStoreExperiences } from 'src/stores/experiences';
+import ExperiencesMasonry from '../components/ExperiencesMasonry.vue';
 
 const storeExperiences = useStoreExperiences();
 const { setExperiences } = storeExperiences;

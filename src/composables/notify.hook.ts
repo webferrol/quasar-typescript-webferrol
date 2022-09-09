@@ -5,14 +5,14 @@ import { useQuasar } from 'quasar';
  */
 export const useNotify = () => {
 
-    const $q = useQuasar();
-    const error = (message: String) => $q.notify({
+    const $q: any = useQuasar();
+    const error = (message: string) => $q.notify({
         color: 'red-5',
         textColor: 'white',
         icon: 'warning',
         message: `${message}`
     });
-    const ok = (message: String) => $q.notify({
+    const ok = (message: string) => $q.notify({
         color: 'green-5',
         textColor: 'white',
         icon: 'done',

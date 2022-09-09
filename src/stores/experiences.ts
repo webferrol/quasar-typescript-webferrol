@@ -4,6 +4,9 @@ import { ref,computed } from 'vue';
 import { db } from 'src/firebase';
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
 
+//Errors
+import { useNotify } from 'src/composables/notify.hook';
+
 
 export const useStoreExperiences = defineStore('experiences', () => {
   const experiences = ref<any>([]);
@@ -20,6 +23,7 @@ export const useStoreExperiences = defineStore('experiences', () => {
 
   const setExperiences = async (p_collection: string, p_field: string) => {
     loading.value = true;
+    const {error: $error} = useNotify();
     try {
       const $q = await getDocs(query(
         collection(db, p_collection),
@@ -30,6 +34,7 @@ export const useStoreExperiences = defineStore('experiences', () => {
         throw new Error(`No se encuentra el campo [${p_field}]`);
     } catch (p_error:any) {
       error.value = errorMessages[p_error.code] || p_error.message;
+      $error(error.value);
     } finally {
       loading.value = false;
     }

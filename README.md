@@ -31,3 +31,7 @@ year.value = 2020 // ok!
 ### [storeToRefs](https://pinia.vuejs.org/api/modules/pinia.html#storetorefs)
 
 Creates an object of references with all the state, getters, and plugin-added state properties of the store. Similar to toRefs() but specifically designed for Pinia stores so methods and non reactive properties are completely ignored.
+
+## Tablas de [Quasar](https://quasar.dev/vue-components/table#qtable-api)
+
+Para mostrar los datos de la tabla en formato _grid_ utilizando _QCard_ ver la documentación de las tablas en la _pestaña Slots_. Consulta el enlace de encabezado para obtener otras configuraciones.

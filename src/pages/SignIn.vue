@@ -14,7 +14,7 @@
                             val => val && val.length > 0 || 'Escriba su contraseña'
                         ]" />
 
-                        <q-toggle v-model="accept" label="Acepto la licencia y los términos" />
+                        <q-toggle v-model="accept" label="Debes marcar la casilla de verificación" />
 
                         <div>
                             <q-btn :loading="loading[0]" label="Acceder" type="submit" color="primary" />

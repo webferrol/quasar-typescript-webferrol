@@ -38,7 +38,7 @@ export const useStoreUsers = defineStore('users', () => {
         loading.value[0] = true;
         try {
             if (accept !== true)
-                throw new Error('Primero debe aceptar la licencia y los términos');
+                throw new Error('Debes marcar la casilla de verificación');
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             setUser(userCredential.user);
             router.push({ name: 'HomeAdmin' });

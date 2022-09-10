@@ -8,7 +8,15 @@ const routes: RouteRecordRaw[] = [
       { path: '', name: 'Home', component: () => import('pages/IndexPage.vue') },
       { path: 'sign-in', name: 'SignIn', component: () => import('pages/SignIn.vue') },
       { path: 'work-experience', name: 'WorkExperience', component: () => import('pages/WorkExperience.vue') }
-    ],
+    ],    
+  },
+  //Backend
+  {
+    path: '/admin',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', name: 'HomeAdmin', component: () => import('pages/IndexPage.vue') },
+    ],    
   },
 
   // Always leave this as last one,

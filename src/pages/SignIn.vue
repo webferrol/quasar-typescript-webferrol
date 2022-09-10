@@ -17,11 +17,11 @@
                         <q-toggle v-model="accept" label="Acepto la licencia y los términos" />
 
                         <div>
-                            <q-btn :loading="loading" label="Acceder" type="submit" color="primary" />
+                            <q-btn :loading="loading[0]" label="Acceder" type="submit" color="primary" />
                             <q-btn label="Borrar" type="reset" color="primary" flat class="q-ml-sm" />
                         </div>
                     </q-form>
-                    <q-btn class="q-mt-sm" @click="onSendPasswordResetEmail(email)" :loading="loading" flat
+                    <q-btn class="q-mt-sm" @click="onSendPasswordResetEmail(email)" :loading="loading[1]" flat
                         style="color: #FF0080" label="¿Olvidaste la contraseña?" />
                     <!-- <q-btn class="q-mt-sm" :to="{ name: 'Register' }" flat style="color: #FF0080"
                         label="Regístrate como nuevo usuario" /> -->

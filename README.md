@@ -1,6 +1,24 @@
 # WebFerrol App (quasar-webferrol-typescript)
 
-Portafolio de WebFerrol
+Portafolio de WebFerrol en **TypeScript**
+
+## Vanilla❓ TypeScript
+
+1. Declarando objetos literales
+[How to Declare Object Literals in TypeScript the Right Way](https://www.realpythonproject.com/how-to-declare-object-literals-in-typescript-the-right-way/)
+
+Aplicando algún ejemplo de la lectura anterios:
+```TypeScript
+//Mensajes de error con la técnica "Dynamic Property Maps"
+const errorMessages: Record<string, string> = {
+    'auth/too-many-requests': 'Demasiados intentos vuelva a intentarlo más tarde',
+    'auth/user-not-found': 'Usuario NO registrado o contraseña no válida',
+    'auth/invalid-password': 'Usuario NO registrado o contraseña no válida',
+}
+//Luego los podemos mostrar de la siguiente manera
+if(error) //📌error📌 en este caso será un objeto cuya propiedad "code" tendrá alguna "key" de 📌errorMessage📌
+    const msg = errorMessages[error.code] || error.message
+```
 
 ## Conceptos de Vue para TypeScript
 

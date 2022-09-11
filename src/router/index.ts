@@ -7,6 +7,7 @@ import {
 } from 'vue-router';
 
 import routes from './routes';
+import { useStoreUsers } from 'src/stores/users';
 
 /*
  * If not building with SSR mode, you can
@@ -15,11 +16,15 @@ import routes from './routes';
  * The function below can be async too; either use
  * async/await or return a Promise which resolves
  * with the Router instance.
- */
+*/
 
-export default route(function (/* { store, ssrContext } */) {
+
+export default route(async function (/* { store, ssrContext } */) {
+  const {onAuthState} = useStoreUsers();
+  await onAuthState();
+  
   const createHistory = process.env.SERVER
-    ? createMemoryHistory
+  ? createMemoryHistory
     : (process.env.VUE_ROUTER_MODE === 'history' ? createWebHistory : createWebHashHistory);
 
   const Router = createRouter({
@@ -31,6 +36,8 @@ export default route(function (/* { store, ssrContext } */) {
     // quasar.conf.js -> build -> publicPath
     history: createHistory(process.env.VUE_ROUTER_BASE),
   });
+
+
 
   return Router;
 });

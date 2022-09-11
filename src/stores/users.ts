@@ -6,9 +6,13 @@ import { signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthState
 
 import { useNotify } from "src/composables/notify.hook";
 
+interface User {
+    displayName?: string,
+    email?: string,
+}
 
 export const useStoreUsers = defineStore('users', () => {
-    const user = ref<object | null>(null);
+    const user = ref<User|null>(null);
     const loading = ref<boolean[]>([false, false]);//Almacenamos estos valores en un Array por si el componente tiene varias acciones/handles de carga
     const { error, ok } = useNotify();
     const router = useRouter();
@@ -41,7 +45,8 @@ export const useStoreUsers = defineStore('users', () => {
                 throw new Error('Debes marcar la casilla de verificación');
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             setUser(userCredential.user);
-            router.push({ name: 'HomeAdmin' });
+            //router.push({ name: 'HomeAdmin' });
+            router.push({ name: 'Home' });
         } catch (p_error: any) {
             error(errorMessages[p_error.code] || p_error.message);
             console.log('Código', p_error.code)
@@ -49,6 +54,34 @@ export const useStoreUsers = defineStore('users', () => {
             loading.value[0] = false;
         }
     }
+
+    /**
+    * Método que nos permite recargar la propiedad "user" del state en caso de refrescar la página.
+    */
+    const onAuthState = async () => {
+        if (user.value !== null)
+            return;
+        return new Promise(
+            (resolve, reject) => {
+                const subscribe = onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        // User is signed in, see docs for a list of available properties
+                        // https://firebase.google.com/docs/reference/js/firebase.User
+                        //console.log(user)
+                        // ...
+                        setUser(user);
+                        resolve(user)
+                    } else {
+                        // User is signed out
+                        resolve(null);
+                    }
+                },
+                    error => reject(error));
+                subscribe();
+            }
+        );
+    }
+
 
     /**
      * Función para enviar un correo electrónico de restablecimiento de contraseña a un usuario
@@ -72,6 +105,7 @@ export const useStoreUsers = defineStore('users', () => {
         user,
         loading,
         signIn,
+        onAuthState,
         onSendPasswordResetEmail,
     }
 });

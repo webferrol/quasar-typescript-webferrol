@@ -17,7 +17,7 @@ const { setExperiences } = storeExperiences;
 const { experiences, loading } = storeToRefs(storeExperiences);
 
 //SEO
-useMetaLabels({title: 'Experiencia laboral',descriptionContent: 'Curriculum Vitae de Xurxo González Tenreiro. Programador y diseñador web',keywordsContent:['Programador', 'programador web', 'diseñador web','gestor de contenidos']});
+useMetaLabels({title: 'Experiencia laboral',descriptionContent: 'Curriculum Vitae de Xurxo González Tenreiro. Programador y diseñador web',keywordsContent:['Curriculum Vitae','experiencia laborar de Xurxo González Tenreiro','Programador', 'programador web', 'diseñador web','gestor de contenidos']});
 
 
 //Carga de datos

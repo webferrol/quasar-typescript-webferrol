@@ -2,7 +2,7 @@
     <q-item v-ripple>
         <q-item-section side>
             <q-avatar rounded size="48px">
-                <img src="https://cdn.quasar.dev/img/avatar.png" />
+                <img :src="info.photoURL" />
                 <q-badge floating :color="info.badgeColor">{{info.badgeText}}</q-badge>
             </q-avatar>
         </q-item-section>
@@ -30,6 +30,7 @@ const info = computed(()=>{
             badgeText: 'online',
             displayName: user.value.displayName??'Admin',
             email: user.value.email,
+            photoURL: user.value.photoURL??'https://cdn.quasar.dev/img/avatar.png',
         }
     }else{
         return {
@@ -40,6 +41,4 @@ const info = computed(()=>{
         }
     }
 });
-
-console.log(user.value)
 </script>

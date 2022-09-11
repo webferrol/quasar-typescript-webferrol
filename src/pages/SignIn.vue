@@ -32,17 +32,28 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useStoreUsers } from 'src/stores/users';
 import { storeToRefs } from 'pinia';
+import { useNotify } from 'src/composables/notify.hook';
 
 const {signIn,onSendPasswordResetEmail} = useStoreUsers();
-const { loading } = storeToRefs(useStoreUsers());
+const { loading, error, ok } = storeToRefs(useStoreUsers());
 const email = ref<string>('');
 const password = ref<string>('');
 const accept = ref<boolean>(false);
+const {error:$error,ok:$ok} = useNotify(); 
 
-
+watch([ok, error], ([newOk, newError], [prevOk, prevError]) => {
+    if(newError){
+        $error(newError);
+        error.value = null;        
+    }
+    if(newOk){
+        $ok(newOk);
+        ok.value = null;        
+    }
+});
 
 const onReset = () => {
     email.value = '';

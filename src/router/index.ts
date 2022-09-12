@@ -24,9 +24,9 @@ export default route(async function (/* { store, ssrContext } */) {
   const { onAuthState } = useStoreUsers();
   const { user } = storeToRefs(useStoreUsers());
   await onAuthState();
-  
+
   const createHistory = process.env.SERVER
-  ? createMemoryHistory
+    ? createMemoryHistory
     : (process.env.VUE_ROUTER_MODE === 'history' ? createWebHistory : createWebHashHistory);
 
   const Router = createRouter({
@@ -40,16 +40,18 @@ export default route(async function (/* { store, ssrContext } */) {
   });
 
 
-   /**
-   * @link https://quasar.dev/quasar-cli-vite/routing
-   */
-    Router.beforeEach((to, from, next) => {
-      if (to.meta.authRoute === true && user.value?.uid !== undefined) {
-        next('/');
-      } else {
-        next();
-      }
-    })
+  /**
+  * @link https://quasar.dev/quasar-cli-vite/routing
+  */
+  Router.beforeEach((to, from, next) => {
+    if (to.meta.protectedRoute === true && user.value?.uid === undefined) {
+      next('/sign-in');
+    } else if (to.meta.authRoute === true && user.value?.uid !== undefined) {
+      next('/');
+    } else {
+      next();
+    }
+  })
 
   return Router;
 });

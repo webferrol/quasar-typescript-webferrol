@@ -3,7 +3,8 @@
     <div class="dropdown-list">
       <q-list>
         <q-item-label header>Acceso</q-item-label>
-        <q-item v-if="!user" :to="{name:'SignIn'}" clickable v-close-popup tabindex="0">
+        <template v-if="!user">
+          <q-item  :to="{name:'SignIn'}" clickable v-close-popup tabindex="0">
           <q-item-section avatar>
             <q-avatar icon="login" color="secondary" text-color="white" />
           </q-item-section>
@@ -12,15 +13,27 @@
             <q-item-label caption>Acceso Backend</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item v-else @click="handleSignOut" clickable v-close-popup tabindex="0">
+        </template>        
+        <template v-else>
+          <q-item  :to="{name:'HomeAdmin'}" clickable v-close-popup tabindex="0">
           <q-item-section avatar>
-            <q-avatar icon="logout" color="negative" text-color="white" />
+            <q-avatar icon="login" color="secondary" text-color="white" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>Sign out</q-item-label>
-            <q-item-label caption>Cerrar sesión</q-item-label>
+            <q-item-label>Zona administrativa</q-item-label>
+            <q-item-label caption>Backend</q-item-label>
           </q-item-section>
-        </q-item>
+          </q-item>
+          <q-item  @click="handleSignOut" clickable v-close-popup tabindex="0">
+            <q-item-section avatar>
+              <q-avatar icon="logout" color="negative" text-color="white" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Sign out</q-item-label>
+              <q-item-label caption>Cerrar sesión</q-item-label>
+            </q-item-section>
+          </q-item>
+        </template>
         <q-separator inset spaced />
         <q-item-label header>Archivos</q-item-label>
         <q-item clickable v-close-popup tabindex="0">

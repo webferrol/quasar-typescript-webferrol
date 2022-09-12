@@ -3,7 +3,7 @@ import { RouteRecordRaw } from 'vue-router';
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    component: () => import('layouts/MainLayoutPublic.vue'),
+    component: () => import('layouts/MainLayoutFronted.vue'),
     children: [
       { path: '', name: 'Home', component: () => import('pages/IndexPage.vue') },
       { path: 'sign-in', name: 'SignIn', meta: { authRoute: true }, component: () => import('pages/SignIn.vue') },
@@ -13,9 +13,9 @@ const routes: RouteRecordRaw[] = [
   //Backend
   {
     path: '/admin',
-    component: () => import('layouts/MainLayout.vue'),
+    component: () => import('layouts/MainLayoutBackend.vue'),
     children: [
-      { path: '', name: 'HomeAdmin', component: () => import('pages/backend/IndexPage.vue') },
+      { path: '', name: 'HomeAdmin', meta: {protectedRoute: true},component: () => import('pages/backend/IndexPage.vue') },
     ],    
   },
 

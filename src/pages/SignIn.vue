@@ -33,18 +33,20 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStoreUsers } from 'src/stores/users';
 import { storeToRefs } from 'pinia';
 import { useNotify } from 'src/composables/notify.hook';
 
 const {signIn,onSendPasswordResetEmail} = useStoreUsers();
-const { loading, error, ok } = storeToRefs(useStoreUsers());
+const {push} = useRouter();
+const { loading, error, ok, user } = storeToRefs(useStoreUsers());
 const email = ref<string>('');
 const password = ref<string>('');
 const accept = ref<boolean>(false);
 const {error:$error,ok:$ok} = useNotify(); 
 
-watch([ok, error], ([newOk, newError], [prevOk, prevError]) => {
+watch([ok, error, user], ([newOk, newError, newUser], [prevOk, prevError, prevUser ]) => {
     if(newError){
         $error(newError);
         error.value = null;        
@@ -52,6 +54,9 @@ watch([ok, error], ([newOk, newError], [prevOk, prevError]) => {
     if(newOk){
         $ok(newOk);
         ok.value = null;        
+    }
+    if(newUser!==null){
+        push({name: 'HomeAdmin'});
     }
 });
 

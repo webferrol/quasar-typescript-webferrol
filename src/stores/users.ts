@@ -1,7 +1,7 @@
 import { date } from 'quasar';
 import { defineStore } from "pinia";
 import { auth } from "src/firebase";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, updateProfile, updateEmail, sendPasswordResetEmail, updatePassword, signOut } from "firebase/auth";
+import { signInWithEmailAndPassword, onAuthStateChanged, updateProfile, updateEmail, sendPasswordResetEmail, updatePassword, signOut } from "firebase/auth";
 
 
 interface User {
@@ -58,7 +58,7 @@ export const useStoreUsers = defineStore('users', {
                 this.setUser(userCredential.user);
             } catch (p_error: any) {
                 this.error = this.errorMessages[p_error.code] || p_error.message;
-                console.log('Código',typeof p_error,p_error.code)
+                //console.log('Código',typeof p_error,p_error.code)
             } finally {
                 this.loading[0] = false;
             }

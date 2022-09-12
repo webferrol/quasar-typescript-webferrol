@@ -3,13 +3,22 @@
     <div class="dropdown-list">
       <q-list>
         <q-item-label header>Acceso</q-item-label>
-        <q-item :to="{name:'SignIn'}" clickable v-close-popup tabindex="0">
+        <q-item v-if="!user" :to="{name:'SignIn'}" clickable v-close-popup tabindex="0">
           <q-item-section avatar>
             <q-avatar icon="login" color="secondary" text-color="white" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>Login/Sign in</q-item-label>
+            <q-item-label>Sign in</q-item-label>
             <q-item-label caption>Acceso Backend</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item v-else @click="handleSignOut" clickable v-close-popup tabindex="0">
+          <q-item-section avatar>
+            <q-avatar icon="logout" color="negative" text-color="white" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Sign out</q-item-label>
+            <q-item-label caption>Cerrar sesión</q-item-label>
           </q-item-section>
         </q-item>
         <q-separator inset spaced />
@@ -33,6 +42,11 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import type { Ref } from 'vue';
+import { useStoreUsers } from 'src/stores/users';
+import { storeToRefs } from 'pinia';
+
+const { handleSignOut} = useStoreUsers();
+const { user } = storeToRefs(useStoreUsers());
 
 
 const menuState: Ref<boolean> = ref(false);//Detectamos si el menú está abierto o cerrado

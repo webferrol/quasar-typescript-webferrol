@@ -10,8 +10,8 @@
             <q-item-label>{{info.displayName}}</q-item-label>
             <q-item-label caption>{{info.email}}</q-item-label>
         </q-item-section>
-        <q-item-section side>
-            3 min ago
+        <q-item-section side class="text-subtitle2">
+            {{ getLastLoginAt }}
         </q-item-section>
     </q-item>
 </template>
@@ -21,7 +21,7 @@ import { computed } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useStoreUsers } from 'src/stores/users';
 
-const { user } = storeToRefs(useStoreUsers());
+const { user,getLastLoginAt } = storeToRefs(useStoreUsers());
 
 const info = computed(()=>{
     if(user.value){
@@ -38,6 +38,7 @@ const info = computed(()=>{
             badgeText: 'offline',
             displayName: '',
             email: '',
+            photoURL: 'https://cdn.quasar.dev/img/avatar.png',
         }
     }
 });

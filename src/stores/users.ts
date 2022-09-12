@@ -1,3 +1,4 @@
+import { date } from 'quasar';
 import { defineStore } from "pinia";
 import { auth } from "src/firebase";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, updateProfile, updateEmail, sendPasswordResetEmail, updatePassword, signOut } from "firebase/auth";
@@ -7,6 +8,8 @@ interface User {
     displayName?: string,
     email?: string,
     photoURL?: string,
+    metadata?: any,
+    uid?:any,
 }
 
 interface State{
@@ -29,7 +32,8 @@ export const useStoreUsers = defineStore('users', {
                 'auth/too-many-requests': 'Demasiados intentos vuelva a intentarlo más tarde',
                 'auth/user-not-found': 'Usuario NO registrado o contraseña no válida',
                 'auth/invalid-password': 'Usuario NO registrado o contraseña no válida',
-                'auth/wrong-password': 'Usuario NO registrado o contraseña no válida', 
+                'auth/wrong-password': 'Usuario NO registrado o contraseña no válida',
+                'auth/missing-email': 'Debes poner una contraseña válida', 
             }
         }
         return data;
@@ -99,10 +103,26 @@ export const useStoreUsers = defineStore('users', {
                 this.ok = `Se ha enviado a su cuenta de correo ${email} las instrucciones para crear una nueva contraseña. Si no lo encuentra compruebe su bandeja de SPAN`;
             } catch (p_error: any) {
                 this.error = this.errorMessages[p_error.code] || p_error.message;
-                console.log('Código', p_error.code)
+                //console.log('Código', p_error.code)
             } finally {
                 this.loading[1] = false;
             }
         },
+        /**
+         * Cerrar sesión
+         */
+        async handleSignOut() {
+            await signOut(auth);
+            this.user = null;
+        },
+    },
+    getters: {
+        getLastLoginAt: state => {
+            const timeStamp = Number(state.user?.metadata.lastLoginAt)
+            return date.formatDate(timeStamp, 'DD-MM-YYYY HH:mm:ss');
+        },
+        getLastSignInTime: state => {
+            return state.user?.metadata.lastSignInTime;
+        }
     }
 });

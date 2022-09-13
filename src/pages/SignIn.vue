@@ -46,6 +46,9 @@ const password = ref<string>('');
 const accept = ref<boolean>(false);
 const {error:$error,ok:$ok} = useNotify(); 
 
+/**
+ * Vigilamos las variables reactivas en caso de mensajes de error, de confirmación o si se ha logueado un usuario
+ */
 watch([ok, error, user], ([newOk, newError, newUser], [prevOk, prevError, prevUser ]) => {
     if(newError){
         $error(newError);
@@ -60,19 +63,21 @@ watch([ok, error, user], ([newOk, newError, newUser], [prevOk, prevError, prevUs
     }
 });
 
+/**
+ * Ponemos los controles de formulario sin rellenar
+ */
 const onReset = () => {
     email.value = '';
     password.value = '';
     accept.value = false;
 };
 
-
 /**
- * Función que valida un correo a través de una expresión regular
- * @param {string} email - Dirección de correo electrónico
- * @returns {boolean|string} - Verdadero si pasa el test o String(Mensaje si no lo pasa)
+ * Función que valida un correo electrónico mediante expresión regular
+ * @param email Correo electrónico para evaluar
+ * @returns Verdadero si es un correo válido o mensaje de error
  */
-const isValidEmail = ( email: string ) => {
+const isValidEmail = (email:string):boolean|string => {
     const emailPattern = /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/;
     return emailPattern.test(email) || `La dirección de correo "${email}" no es válida`;
 }

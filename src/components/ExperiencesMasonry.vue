@@ -74,9 +74,8 @@
 </template>
 
 <script setup lang="ts">
-
-import { Timestamp } from '@firebase/firestore';
 import { ref } from 'vue';
+import { Timestamp } from '@firebase/firestore';
 
 const props = defineProps({
   rows: {
@@ -116,21 +115,19 @@ const columns: any = [
 ]
 
 
-const getDayMonthFullYear = (date: any): string => date.toDate().toLocaleDateString();
+/**
+ * Conversión de Timestamp a un formato string de fecha
+ * @param date Fecha en formato Timestamp de Firebase. Ejemplo: Timestamp(seconds=1535760000, nanoseconds=0)
+ */
+const getDayMonthFullYear = (date: Timestamp): string => date.toDate().toLocaleDateString();
 
-const getPaginationLabel = (firstRowIndex: Number, endRowIndex: Number, totalRowsNumber: Number): string => `Total: ${totalRowsNumber}`;
-
-
-
-
-
-
-
-
-
-
-
-
+/**
+ * Para renderizar en pantalla el número de página
+ * @param firstRowIndex 
+ * @param endRowIndex 
+ * @param totalRowsNumber - Número total de págins
+ */
+const getPaginationLabel = (firstRowIndex: Number, endRowIndex: Number, totalRowsNumber: Number): string => `${totalRowsNumber} registros`;
 </script>
 
 

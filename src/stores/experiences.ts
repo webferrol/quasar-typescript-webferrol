@@ -2,25 +2,35 @@ import { defineStore } from 'pinia';
 import { ref,computed } from 'vue';
 //Firebase
 import { db } from 'src/firebase';
-import { collection, getDocs, query, orderBy } from "firebase/firestore";
+import { collection, doc, getDocs, deleteDoc, query, orderBy } from "firebase/firestore";
 
 //Errors
 import { useNotify } from 'src/composables/notify.hook';
+//interfaces y types
+import {PropertyMaps,Experience} from './models';
+
 
 
 export const useStoreExperiences = defineStore('experiences', () => {
-  const experiences = ref<any>([]);
+  const experiences = ref<Experience[]>([]);
   const loading = ref<boolean>(false);
   const error = ref<any>(null);
 
-  //Mensajes de error con la técnica "Dynamic Property Maps"
-  const errorMessages:any = {
+  
+  const errorMessages:PropertyMaps = {
       'permission-denied': 'Permisos insuficientes o colección inexistente',
   }
 
-  const getExperiencesLength:any = computed(()=>experiences.value.length);
+  /**
+   * Tamaño del array de experiences
+   */
+  const getExperiencesLength = computed<number>(()=>experiences.value.length);
 
-
+  /**
+   * Obtener y colocar experiencias laborales obtenidos de Cloud Firestore
+   * @param p_collection - Colección de Firebase
+   * @param p_field - Campo por el que se ordenará la búsqueda de forma descendiente
+   */
   const setExperiences = async (p_collection: string, p_field: string) => {
     loading.value = true;
     const {error: $error} = useNotify();
@@ -30,6 +40,7 @@ export const useStoreExperiences = defineStore('experiences', () => {
         orderBy(p_field,"desc")));
       if ($q.docs.length) {
         experiences.value = $q.docs.map(doc => doc.data());
+        //console.log(experiences.value)
       }else
         throw new Error(`No se encuentra el campo [${p_field}]`);
     } catch (p_error:any) {
@@ -40,11 +51,24 @@ export const useStoreExperiences = defineStore('experiences', () => {
     }
   }
 
+  /**
+   * 
+   * @param p_idDoc - Identificador que elimina una experiencia
+   */
+  const deleteExperience = async(p_idDoc:string) => {
+    await deleteDoc(doc(db, 'workExperience', p_idDoc));
+    const index = experiences.value.findIndex(el => el.idDoc === p_idDoc);
+    if (index > -1) {
+        experiences.value.splice(index, 1);
+    }
+}
+
   return {
     experiences,
     loading,
     error,
     getExperiencesLength,
     setExperiences,
+    deleteExperience,
   }
 });

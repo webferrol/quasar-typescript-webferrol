@@ -8,15 +8,18 @@ const routes: RouteRecordRaw[] = [
       { path: '', name: 'Home', component: () => import('pages/IndexPage.vue') },
       { path: 'sign-in', name: 'SignIn', meta: { authRoute: true }, component: () => import('pages/SignIn.vue') },
       { path: 'work-experience', name: 'WorkExperience', component: () => import('pages/WorkExperience.vue') }
-    ],    
+    ],
   },
   //Backend
   {
     path: '/admin',
     component: () => import('layouts/MainLayoutBackend.vue'),
     children: [
-      { path: '', name: 'HomeAdmin', meta: {protectedRoute: true},component: () => import('pages/backend/IndexPage.vue') },
-    ],    
+      { path: '', name: 'HomeAdmin', meta: { protectedRoute: true }, component: () => import('pages/backend/IndexPage.vue') },
+      { path: 'work-experience', name: 'WorkExperienceAdmin', meta: { protectedRoute: true }, component: () => import('pages/backend/WorkExperience.vue') },
+      { path: 'new-experience', name: 'NewExperience', meta: { protectedRoute: true }, component: () => import('pages/backend/NewExperience.vue') },
+      { path: 'edit-experience/:idDoc', name: 'EditExperience', meta: { protectedRoute: true }, component: () => import('pages/backend/EditExperience.vue') },
+    ],
   },
 
   // Always leave this as last one,

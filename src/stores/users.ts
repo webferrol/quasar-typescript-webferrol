@@ -2,28 +2,21 @@ import { date } from 'quasar';
 import { defineStore } from "pinia";
 import { auth } from "src/firebase";
 import { signInWithEmailAndPassword, onAuthStateChanged, updateProfile, updateEmail, sendPasswordResetEmail, updatePassword, signOut } from "firebase/auth";
+import { User,PropertyMaps } from './models';
 
 
-interface User {
-    displayName?: string,
-    email?: string,
-    photoURL?: string,
-    metadata?: any,
-    uid?:any,
-}
-
-interface State{
+interface StoreUsers{
     user: null|User,
     loading: boolean[],
     error: any,
     ok: any,
-    errorMessages: any
+    errorMessages: PropertyMaps
 }
 
 export const useStoreUsers = defineStore('users', {
     state: () => {
 
-        const data:State = {
+        return <StoreUsers>{
             user: null,
             loading: [false,false],
             error: null,
@@ -36,7 +29,6 @@ export const useStoreUsers = defineStore('users', {
                 'auth/missing-email': 'Debes poner una contraseña válida', 
             }
         }
-        return data;
     },
     actions: {
         setUser(p_user:any){
@@ -56,7 +48,7 @@ export const useStoreUsers = defineStore('users', {
                     throw new Error('Debes marcar la casilla de verificación');
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
                 this.setUser(userCredential.user);
-            } catch (p_error: any) {
+            } catch (p_error:any) {
                 this.error = this.errorMessages[p_error.code] || p_error.message;
                 //console.log('Código',typeof p_error,p_error.code)
             } finally {
@@ -118,11 +110,17 @@ export const useStoreUsers = defineStore('users', {
     },
     getters: {
         getLastLoginAt: state => {
-            const timeStamp = Number(state.user?.metadata.lastLoginAt)
-            return date.formatDate(timeStamp, 'DD-MM-YYYY HH:mm:ss');
+            if(state.user?.metadata?.lastLoginAt !==undefined){
+                const timeStamp = Number(state.user.metadata.lastLoginAt)
+                return date.formatDate(timeStamp, 'DD-MM-YYYY HH:mm:ss');
+            }
+            return "";
         },
         getLastSignInTime: state => {
-            return state.user?.metadata.lastSignInTime;
+            if(state.user?.metadata?.lastSignInTime!==undefined){
+                return state.user.metadata.lastSignInTime;
+            }
+            return "";
         }
     }
 });

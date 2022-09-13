@@ -17,7 +17,7 @@
         <q-item-label header>
           Menú de navegación
         </q-item-label>
-
+        <NavMenuBackend v-for="to of navMenuBackend" :key="to.title" v-bind="to"></NavMenuBackend>
         <EssentialLink v-for="link in essentialLinks" :key="link.title" v-bind="link" />
       </q-list>
     </q-drawer>
@@ -31,14 +31,18 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import EssentialLink, { EssentialLinkProps } from 'components/EssentialLink.vue';
+import NavMenuBackend, {NavMenuBackendProps} from 'src/components/NavMenuBackend.vue';
 
-const essentialLinks: EssentialLinkProps[] = [
-  {
+const navMenuBackend:NavMenuBackendProps[] = [
+{
     title: 'Curriculum vitae',
     caption: 'Experiencia laboral',
     icon: 'work',
-    link: 'https://quasar.dev'
+    to: {name: 'WorkExperienceAdmin'}
   },
+];
+const essentialLinks: EssentialLinkProps[] = [
+  
   {
     title: 'Docs',
     caption: 'quasar.dev',

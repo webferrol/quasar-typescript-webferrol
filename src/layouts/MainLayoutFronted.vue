@@ -30,7 +30,9 @@
         notice shrink property since we are placing it
         as child of QToolbar
       -->
-                <q-tabs v-model="tab" shrink>
+                <!-- Descomentar si queremos usar el modelo "tab"
+                <q-tabs v-model="tab" shrink> -->
+                <q-tabs shrink>
                     <q-route-tab no-caps name="tab1" :to="{name: 'WorkExperience'}" label="Experiencia laboral" />
                 </q-tabs>
             </q-toolbar>
@@ -40,10 +42,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import type { Ref } from 'vue';
+//import { ref } from 'vue';
+//Componentes
 import DropDownMenu from 'src/components/DropDownMenu.vue';
 import LoginAvatar from '../components/LoginAvatar.vue';
 
-const tab: Ref<string> = ref('');
+//Valor de las pestañas de navegación. Descomentar por si queremos utilizar su valor
+//const tab = ref<string>('');
 </script>

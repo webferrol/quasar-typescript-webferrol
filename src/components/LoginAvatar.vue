@@ -8,10 +8,7 @@
         </q-item-section>
         <q-item-section>
             <q-item-label>{{info.displayName}}</q-item-label>
-            <q-item-label caption>{{info.email}}</q-item-label>
-        </q-item-section>
-        <q-item-section side class="text-subtitle2">
-            {{ getLastLoginAt }}
+            <q-item-label caption>{{getLastLoginAt}}</q-item-label>
         </q-item-section>
     </q-item>
 </template>

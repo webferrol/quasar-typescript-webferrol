@@ -2,7 +2,7 @@
   "name": "quasar-webferrol-typescript",
   "version": "0.0.1",
   "description": "Portafolio de WebFerrol",
-  "productName": "WebFerrol App",
+  "productName": "WebFerrol",
   "author": "webferrol <xurxo@webferrol.com>",
   "private": true,
   "scripts": {

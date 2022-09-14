@@ -3,8 +3,9 @@ import { ref, computed } from 'vue';
 import { Timestamp } from "firebase/firestore";
 //Firebase
 import { db } from 'src/firebase';
-import { collection, doc, getDoc, getDocs, updateDoc, deleteDoc, query, orderBy } from "firebase/firestore";
-
+import { collection, doc, getDoc, getDocs, setDoc, updateDoc, deleteDoc, query, orderBy } from "firebase/firestore";
+//router
+import { useRouter } from 'vue-router';
 //Errors
 import { useNotify } from 'src/composables/notify.hook';
 //interfaces y types
@@ -17,6 +18,9 @@ export const useStoreExperiences = defineStore('experiences', () => {
   const experience = ref<Experience>({});
   const loading = ref<boolean>(false);
   const error = ref<any>(null);
+  //Cargamos composables
+  const { error: $error } = useNotify();
+  const router = useRouter();
 
 
   const errorMessages: PropertyMaps = {
@@ -35,7 +39,6 @@ export const useStoreExperiences = defineStore('experiences', () => {
    */
   const setExperiences = async (p_collection: string, p_field: string) => {
     loading.value = true;
-    const { error: $error } = useNotify();
     try {
       const $q = await getDocs(query(
         collection(db, p_collection),
@@ -88,6 +91,35 @@ export const useStoreExperiences = defineStore('experiences', () => {
   }
 
   /**
+   * Añadiendo experienca laboral
+   * @param p_data - Objeto con experiencia laboral
+   */
+  const addExperience = async (p_data: Experience) => {
+    //Preparamos fechas para almacenarse en la base de datos convirtiéndolo a Date
+    const $dateStart = new Date(p_data.dateStart); //String to Date --> Ej: 1973-04-06 to "Fri Apr 06 1973 01:00:00 GMT+0100 (hora estnew Date(p_data.dateEnd)ándar de Europa central)"
+    const $dateEnd = new Date(p_data.dateEnd);
+
+    //Intentamos almacenar en el try...catch
+    try {
+      loading.value = true;
+      // Creamos una referencia de documento con un ID generado automáticamente que almacenamos en la constante docRef
+      const docRef = doc(collection(db, 'workExperience'));
+      //Almacenamos datos 
+      const $data = { idDoc: docRef.id, createdAt: Date.now(), ...p_data, dateStart: Timestamp.fromDate($dateStart), dateEnd: Timestamp.fromDate($dateEnd) };
+      await setDoc(docRef, $data);
+      experiences.value.push($data);
+      router.push({
+        name: 'WorkExperienceAdmin'
+      })
+    } catch (p_error:any) {
+      error.value = errorMessages[p_error.code] || p_error.message;
+      $error(error.value);
+    } finally {
+      loading.value = false;
+    }
+  }
+
+  /**
    * Actualización de una experiencia laboral
    * @param p_idDoc - Identificador de la experiencia laboral
    * @param p_data - Datos para actualizar la experiencia laboral en Cloud Firestore
@@ -102,7 +134,16 @@ export const useStoreExperiences = defineStore('experiences', () => {
     const $dateEnd = new Date(p_data.dateEnd);
     p_data.dateEnd = $data.dateEnd = Timestamp.fromDate($dateEnd);
     //Actualización de los campos
-    await updateDoc(doc(db, 'workExperience', p_idDoc), $data);
+    try {
+      loading.value = true;
+      await updateDoc(doc(db, 'workExperience', p_idDoc), $data);
+    } catch (p_error: any) {
+      error.value = errorMessages[p_error.code] || p_error.message;
+      $error(error.value);
+    } finally {
+      loading.value = false;
+    }
+
     //Buscamos la experiencia laboral en el modelo del store de Pinia para su actualización también
     const index = experiences.value.findIndex(el => el.idDoc === p_idDoc);
     if (index > -1)
@@ -123,6 +164,7 @@ export const useStoreExperiences = defineStore('experiences', () => {
     error,
     getExperiencesLength,
     setExperiences,
+    addExperience,
     updateExperience,
     getExperience,
     deleteExperience,

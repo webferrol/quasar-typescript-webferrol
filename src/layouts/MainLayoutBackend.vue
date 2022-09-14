@@ -5,7 +5,7 @@
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title>
-          <q-btn no-caps flat label="WebFerrol" size="lg" :to="{name: 'Home'}" />
+          <q-btn icon="home" no-caps flat color="primary" text-color="white" label="Ir a Frontend" size="md" :to="{name: 'Home'}" />
         </q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>
@@ -17,6 +17,9 @@
         <q-item-label header>
           Menú de navegación
         </q-item-label>
+        <q-item>
+          <LoginAvatar></LoginAvatar>
+        </q-item>
         <NavMenuBackend v-for="to of navMenuBackend" :key="to.title" v-bind="to"></NavMenuBackend>
         <EssentialLink v-for="link in essentialLinks" :key="link.title" v-bind="link" />
       </q-list>
@@ -32,6 +35,8 @@
 import { ref } from 'vue';
 import EssentialLink, { EssentialLinkProps } from 'components/EssentialLink.vue';
 import NavMenuBackend, { NavMenuBackendProps } from 'src/components/NavMenuBackend.vue';
+import LoginAvatar from 'src/components/LoginAvatar.vue';
+import SignIn from 'src/pages/SignIn.vue';
 
 const navMenuBackend: NavMenuBackendProps[] = [
   {

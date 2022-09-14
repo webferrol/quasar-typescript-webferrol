@@ -31,18 +31,29 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import EssentialLink, { EssentialLinkProps } from 'components/EssentialLink.vue';
-import NavMenuBackend, {NavMenuBackendProps} from 'src/components/NavMenuBackend.vue';
+import NavMenuBackend, { NavMenuBackendProps } from 'src/components/NavMenuBackend.vue';
 
-const navMenuBackend:NavMenuBackendProps[] = [
-{
+const navMenuBackend: NavMenuBackendProps[] = [
+  {
     title: 'Curriculum vitae',
     caption: 'Experiencia laboral',
     icon: 'work',
-    to: {name: 'WorkExperienceAdmin'}
+    to: { name: 'WorkExperienceAdmin' }
+  },
+  {
+    title: 'Curriculum vitae',
+    caption: 'Nueva Experiencia',
+    icon: 'assignment_add',
+    to: { name: 'NewExperience' }
   },
 ];
 const essentialLinks: EssentialLinkProps[] = [
-  
+  {
+    title: 'Iconos de Google',
+    caption: 'Material Icons',
+    icon: 'palette',
+    link: 'https://fonts.google.com/icons'
+  },
   {
     title: 'Docs',
     caption: 'quasar.dev',

@@ -6,7 +6,8 @@
   "author": "webferrol <xurxo@webferrol.com>",
   "private": true,
   "scripts": {
-    "dev": "quasar dev"
+    "dev": "quasar dev",
+    "build": "quasar build"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",

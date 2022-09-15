@@ -19,6 +19,7 @@ const routes: RouteRecordRaw[] = [
       { path: 'work-experience', name: 'WorkExperienceAdmin', meta: { protectedRoute: true }, component: () => import('pages/backend/WorkExperience.vue') },
       { path: 'new-experience', name: 'NewExperience', meta: { protectedRoute: true }, component: () => import('pages/backend/NewExperience.vue') },
       { path: 'edit-experience/:idDoc', name: 'EditExperience', meta: { protectedRoute: true }, component: () => import('pages/backend/EditExperience.vue') },
+      { path: 'user-profile', name: 'UserProfile', meta: { protectedRoute: true }, component: () => import('pages/backend/UserProfile.vue') },
     ],
   },
 

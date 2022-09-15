@@ -18,20 +18,16 @@ export const useStoreExperiences = defineStore('experiences', () => {
   const experience = ref<Experience>({});
   const loading = ref<boolean>(false);
   const error = ref<any>(null);
-  const $orderBy = ref<string>('dateEnd');
   //Cargamos composables
   const { error: $error } = useNotify();
-  const router = useRouter();
-
-  /**
-   * Tamaño del array de experiences
-   */
-  const getExperiencesLength = computed<number>(() => experiences.value.length);
+  const router = useRouter();  
 
   /**
    * Colocamos experiencias laborales obtenidos de Cloud Firestore en nuestra constante global "experiences"
    */
   const setExperiencesFromCloud = async () => {
+
+    if(isExperiences.value) return;
     loading.value = true;
     try {
       const $q = await getDocs(query(
@@ -146,9 +142,15 @@ export const useStoreExperiences = defineStore('experiences', () => {
 
   /**
    * Comprobamos si existe alguna experiencia en el objeto en caso de que no existan propiedades sería nulo
-   * @return booleano
+   * @return Verdadero si hay alguna experiencia
    */
   const isExperience = computed((): boolean => Object.keys(experience.value).length !== 0);
+
+  /**
+   * Comprobamos si hay experiencias en el array
+   * @return Verdadero si hay experiencias
+   */
+   const isExperiences = computed<boolean>(() => experiences.value.length>0);
 
   return {
     experiences,
@@ -156,7 +158,7 @@ export const useStoreExperiences = defineStore('experiences', () => {
     isExperience,
     loading,
     error,
-    getExperiencesLength,
+    isExperiences,
     setExperiencesFromCloud,    
     setExperience,
     addExperience,

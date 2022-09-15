@@ -2,11 +2,11 @@ import { date } from 'quasar';
 import { defineStore } from "pinia";
 import { auth } from "src/firebase";
 import { signInWithEmailAndPassword, onAuthStateChanged, updateProfile, updateEmail, sendPasswordResetEmail, updatePassword, signOut } from "firebase/auth";
-import { User,errorMessages } from './models';
+import { User, errorMessages } from './models';
 
 
-interface StoreUsers{
-    user: null|User,
+interface StoreUsers {
+    user: null | User,
     loading: boolean[],
     error: any,
     ok: any,
@@ -17,13 +17,13 @@ export const useStoreUsers = defineStore('users', {
 
         return <StoreUsers>{
             user: null,
-            loading: [false,false],
+            loading: [false, false],
             error: null,
             ok: null
         }
     },
     actions: {
-        setUser(p_user:any){
+        setUser(p_user: any) {
             this.user = p_user
         },
         /**
@@ -33,14 +33,14 @@ export const useStoreUsers = defineStore('users', {
          * @param { string } signin.password - Contraseña
          * @param { boolean } signin.accept - Casilla de verificación que hay que marcar
          */
-        async signIn({ email, password, accept }: { email: string, password: string, accept: boolean }){
+        async signIn({ email, password, accept }: { email: string, password: string, accept: boolean }) {
             this.loading[0] = true;
             try {
                 if (accept !== true)
                     throw new Error('Debes marcar la casilla de verificación');
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
                 this.setUser(userCredential.user);
-            } catch (p_error:any) {
+            } catch (p_error: any) {
                 this.error = errorMessages[p_error.code] || p_error.message;
                 //console.log('Código',typeof p_error,p_error.code)
             } finally {
@@ -51,7 +51,7 @@ export const useStoreUsers = defineStore('users', {
          * 
          * @returns void
          */
-        async onAuthState(){
+        async onAuthState() {
             if (this.user !== null)
                 return;
             return new Promise(
@@ -79,7 +79,7 @@ export const useStoreUsers = defineStore('users', {
          * 
          * @param {string } email - Correo electrónico
          */
-        async onSendPasswordResetEmail(email: string){
+        async onSendPasswordResetEmail(email: string) {
 
             try {
                 this.loading[1] = true;
@@ -96,20 +96,24 @@ export const useStoreUsers = defineStore('users', {
          * Cerrar sesión
          */
         async handleSignOut() {
-            await signOut(auth);
-            this.user = null;
+            try {
+                await signOut(auth);
+                this.user = null;
+            } catch (error) {
+                console.log(error);
+            }
         },
     },
     getters: {
         getLastLoginAt: state => {
-            if(state.user?.metadata?.lastLoginAt !==undefined){
+            if (state.user?.metadata?.lastLoginAt !== undefined) {
                 const timeStamp = Number(state.user.metadata.lastLoginAt)
                 return date.formatDate(timeStamp, 'DD-MM-YYYY HH:mm:ss');
             }
             return "";
         },
         getLastSignInTime: state => {
-            if(state.user?.metadata?.lastSignInTime!==undefined){
+            if (state.user?.metadata?.lastSignInTime !== undefined) {
                 return state.user.metadata.lastSignInTime;
             }
             return "";

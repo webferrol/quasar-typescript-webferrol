@@ -5,10 +5,23 @@
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title>
-          <q-btn icon="home" no-caps flat color="primary" text-color="white" label="Ir a Frontend" size="md" :to="{name: 'Home'}" />
+          <q-btn icon="home" no-caps flat color="primary" text-color="white" label="Ir a Frontend" size="md"
+            :to="{name: 'Home'}" />
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <!-- Logout -->
+        <q-list>
+          <q-item @click="onLogout" clickable v-close-popup tabindex="0">
+            <q-item-section avatar>
+              <q-avatar icon="logout" color="negative" text-color="white" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Sign out</q-item-label>
+              <q-item-label caption>Cerrar sesión</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-list>
+        <!-- //Logout -->
       </q-toolbar>
     </q-header>
 
@@ -38,8 +51,20 @@ import { ref } from 'vue';
 import EssentialLink, { EssentialLinkProps } from 'components/EssentialLink.vue';
 import NavMenuBackend, { NavMenuBackendProps } from 'src/components/NavMenuBackend.vue';
 import LoginAvatar from 'src/components/LoginAvatar.vue';
+//Composables
+import { useLogout } from '../composables/logout.hook';
 
+//Método para cerrar sesión
+const { onLogout } = useLogout();
+
+//Menú lateral
 const navMenuBackend: NavMenuBackendProps[] = [
+  {
+    title: 'User profile',
+    caption: 'Perfil de usuario',
+    icon: 'badge',
+    to: { name: 'UserProfile' }
+  },
   {
     title: 'Dashboard',
     caption: 'Escritorio principal',
@@ -59,6 +84,7 @@ const navMenuBackend: NavMenuBackendProps[] = [
     to: { name: 'NewExperience' }
   },
 ];
+//Enlaces del menú lateral
 const essentialLinks: EssentialLinkProps[] = [
   {
     title: 'Iconos de Google',

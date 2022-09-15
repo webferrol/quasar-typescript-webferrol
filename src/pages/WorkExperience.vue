@@ -9,18 +9,17 @@
 import { storeToRefs } from 'pinia'
 import { useStoreExperiences } from 'src/stores/experiences';
 import ExperiencesMasonry from '../components/ExperiencesMasonry.vue';
-//SEO
+//SEO composable
 import { useMetaLabels } from '../composables/meta.hook';
-
-const storeExperiences = useStoreExperiences();
-const { setExperiences } = storeExperiences;
-const { experiences, loading } = storeToRefs(storeExperiences);
-
 //SEO
 useMetaLabels({title: 'Experiencia laboral',descriptionContent: 'Curriculum Vitae de Xurxo González Tenreiro. Programador y diseñador web',keywordsContent:['Curriculum Vitae','experiencia laborar de Xurxo González Tenreiro','Programador', 'programador web', 'diseñador web','gestor de contenidos']});
 
-
-//Carga de datos
-setExperiences('workExperience', 'dateEnd');
+//Obtención de constantes y métodos de Pinia
+const storeExperiences = useStoreExperiences();
+const { setExperiencesFromCloud } = storeExperiences;
+//Carga datos del modelo
+setExperiencesFromCloud();
+//Registros obtenidos y estado de carga de los datos 
+const { experiences, loading } = storeToRefs(storeExperiences);
 </script>
 

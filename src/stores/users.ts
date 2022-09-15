@@ -2,7 +2,7 @@ import { date } from 'quasar';
 import { defineStore } from "pinia";
 import { auth } from "src/firebase";
 import { signInWithEmailAndPassword, onAuthStateChanged, updateProfile, updateEmail, sendPasswordResetEmail, updatePassword, signOut } from "firebase/auth";
-import { User,PropertyMaps } from './models';
+import { User,errorMessages } from './models';
 
 
 interface StoreUsers{
@@ -10,7 +10,6 @@ interface StoreUsers{
     loading: boolean[],
     error: any,
     ok: any,
-    errorMessages: PropertyMaps
 }
 
 export const useStoreUsers = defineStore('users', {
@@ -20,14 +19,7 @@ export const useStoreUsers = defineStore('users', {
             user: null,
             loading: [false,false],
             error: null,
-            ok: null,
-            errorMessages: {
-                'auth/too-many-requests': 'Demasiados intentos vuelva a intentarlo más tarde',
-                'auth/user-not-found': 'Usuario NO registrado o contraseña no válida',
-                'auth/invalid-password': 'Usuario NO registrado o contraseña no válida',
-                'auth/wrong-password': 'Usuario NO registrado o contraseña no válida',
-                'auth/missing-email': 'Debes poner una contraseña válida', 
-            }
+            ok: null
         }
     },
     actions: {
@@ -49,7 +41,7 @@ export const useStoreUsers = defineStore('users', {
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
                 this.setUser(userCredential.user);
             } catch (p_error:any) {
-                this.error = this.errorMessages[p_error.code] || p_error.message;
+                this.error = errorMessages[p_error.code] || p_error.message;
                 //console.log('Código',typeof p_error,p_error.code)
             } finally {
                 this.loading[0] = false;
@@ -94,7 +86,7 @@ export const useStoreUsers = defineStore('users', {
                 await sendPasswordResetEmail(auth, email);
                 this.ok = `Se ha enviado a su cuenta de correo ${email} las instrucciones para crear una nueva contraseña. Si no lo encuentra compruebe su bandeja de SPAN`;
             } catch (p_error: any) {
-                this.error = this.errorMessages[p_error.code] || p_error.message;
+                this.error = errorMessages[p_error.code] || p_error.message;
                 //console.log('Código', p_error.code)
             } finally {
                 this.loading[1] = false;

@@ -9,7 +9,7 @@ import { useRouter } from 'vue-router';
 //Errors
 import { useNotify } from 'src/composables/notify.hook';
 //interfaces y types
-import { PropertyMaps, Experience } from './models';
+import { PropertyMaps, Experience, errorMessages } from './models';
 
 
 
@@ -18,14 +18,10 @@ export const useStoreExperiences = defineStore('experiences', () => {
   const experience = ref<Experience>({});
   const loading = ref<boolean>(false);
   const error = ref<any>(null);
+  const $orderBy = ref<string>('dateEnd');
   //Cargamos composables
   const { error: $error } = useNotify();
   const router = useRouter();
-
-
-  const errorMessages: PropertyMaps = {
-    'permission-denied': 'Permisos insuficientes o colección inexistente',
-  }
 
   /**
    * Tamaño del array de experiences
@@ -33,21 +29,19 @@ export const useStoreExperiences = defineStore('experiences', () => {
   const getExperiencesLength = computed<number>(() => experiences.value.length);
 
   /**
-   * Obtener y colocar experiencias laborales obtenidos de Cloud Firestore
-   * @param p_collection - Colección de Firebase
-   * @param p_field - Campo por el que se ordenará la búsqueda de forma descendiente
+   * Colocamos experiencias laborales obtenidos de Cloud Firestore en nuestra constante global "experiences"
    */
-  const setExperiences = async (p_collection: string, p_field: string) => {
+  const setExperiencesFromCloud = async () => {
     loading.value = true;
     try {
       const $q = await getDocs(query(
-        collection(db, p_collection),
-        orderBy(p_field, "desc")));
+        collection(db, 'workExperience'),
+        orderBy('dateEnd', "desc")));
       if ($q.docs.length) {
         experiences.value = $q.docs.map(doc => doc.data());
         //console.log(experiences.value)
       } else
-        throw new Error(`No se encuentra el campo [${p_field}]`);
+        throw new Error(`Ha surgido algún tipo de error en la consulta. compruebe la colección, los documentos o los campos`);
     } catch (p_error: any) {
       error.value = errorMessages[p_error.code] || p_error.message;
       $error(error.value);
@@ -72,9 +66,9 @@ export const useStoreExperiences = defineStore('experiences', () => {
    * Recuperación de un objeto del array de experiencias del store Pinia
    * @param p_idDoc - Identificador de la experiencia
    */
-  const getExperience = async (p_idDoc: string) => {
+  const setExperience = async (p_idDoc: string) => {
     const $experience = experiences.value.find(el => el.idDoc === p_idDoc);
-    experience.value = $experience || await getDocumentExperience(p_idDoc);
+    experience.value = $experience || await getExperienceFromCloud(p_idDoc);
   }
 
   /**
@@ -82,7 +76,7 @@ export const useStoreExperiences = defineStore('experiences', () => {
    * @param p_idDoc - Identificador de una experiencia laboral
    * @returns Un objeto con los campos de la experiencia laboral
    */
-  const getDocumentExperience = async (p_idDoc: string): Promise<Experience> => {
+  const getExperienceFromCloud = async (p_idDoc: string): Promise<Experience> => {
     const docRef = doc(db, 'workExperience', p_idDoc);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists())
@@ -102,7 +96,7 @@ export const useStoreExperiences = defineStore('experiences', () => {
     //Intentamos almacenar en el try...catch
     try {
       loading.value = true;
-      // Creamos una referencia de documento con un ID generado automáticamente que almacenamos en la constante docRef
+      // Creamos una referencia de o con un IFromCloudD generado automáticamente que almacenamos en la constante docRef
       const docRef = doc(collection(db, 'workExperience'));
       //Almacenamos datos 
       const $data = { idDoc: docRef.id, createdAt: Date.now(), ...p_data, dateStart: Timestamp.fromDate($dateStart), dateEnd: Timestamp.fromDate($dateEnd) };
@@ -163,10 +157,10 @@ export const useStoreExperiences = defineStore('experiences', () => {
     loading,
     error,
     getExperiencesLength,
-    setExperiences,
+    setExperiencesFromCloud,    
+    setExperience,
     addExperience,
     updateExperience,
-    getExperience,
     deleteExperience,
   }
 });

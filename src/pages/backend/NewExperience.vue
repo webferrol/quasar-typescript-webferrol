@@ -2,7 +2,7 @@
     import { ref } from 'vue';
     import { Experience } from 'src/stores/models';
     import { useStoreExperiences } from 'src/stores/experiences';
-    import FormExperience from 'src/components/FormExperience.vue';
+    import FormExperience from 'src/components/experiences/FormExperience.vue';
     import { storeToRefs } from 'pinia';
     
     //Modelo 

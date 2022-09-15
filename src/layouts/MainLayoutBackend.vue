@@ -21,6 +21,7 @@
           <LoginAvatar></LoginAvatar>
         </q-item>
         <NavMenuBackend v-for="to of navMenuBackend" :key="to.title" v-bind="to"></NavMenuBackend>
+        <q-separator />
         <EssentialLink v-for="link in essentialLinks" :key="link.title" v-bind="link" />
       </q-list>
     </q-drawer>
@@ -33,12 +34,18 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+//Components
 import EssentialLink, { EssentialLinkProps } from 'components/EssentialLink.vue';
 import NavMenuBackend, { NavMenuBackendProps } from 'src/components/NavMenuBackend.vue';
 import LoginAvatar from 'src/components/LoginAvatar.vue';
-import SignIn from 'src/pages/SignIn.vue';
 
 const navMenuBackend: NavMenuBackendProps[] = [
+  {
+    title: 'Dashboard',
+    caption: 'Escritorio principal',
+    icon: 'dashboard',
+    to: { name: 'HomeAdmin' }
+  },
   {
     title: 'Curriculum vitae',
     caption: 'Experiencia laboral',

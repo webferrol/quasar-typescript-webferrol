@@ -3,12 +3,12 @@ import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStoreExperiences } from 'src/stores/experiences';
 import { useNotify } from 'src/composables/notify.hook';
-import FormExperience from '../../components/FormExperience.vue';
+import FormExperience from 'src/components/experiences/FormExperience.vue';
 import { Experience } from 'src/stores/models';
 import { storeToRefs } from 'pinia';
 
 //Carga del model
-const { getExperience,updateExperience } = useStoreExperiences();
+const { setExperience,updateExperience } = useStoreExperiences();
 const { isExperience, experience, loading } = storeToRefs(useStoreExperiences());
 //Enrutamiento
 const route = useRoute();
@@ -22,7 +22,7 @@ const form = ref<Experience>({}); //Almacenaremos los datos del store
 (async () => {
     try {
         //Obtenemos datos del modelo
-        await getExperience(String(route.params.idDoc));
+        await setExperience(String(route.params.idDoc));
         //Cargamos formularios con los nuevos valores
         form.value = { ...experience.value };
         //Paso de datos en Timestamp a String para el formulario

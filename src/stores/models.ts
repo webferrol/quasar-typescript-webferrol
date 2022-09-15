@@ -49,3 +49,12 @@ export interface Experience{
 export type PropertyMaps = {
     [key: string]: string;
 }
+export const errorMessages: PropertyMaps = {
+    'auth/too-many-requests': 'Demasiados intentos vuelva a intentarlo más tarde',
+    'auth/user-not-found': 'Usuario NO registrado o contraseña no válida',
+    'auth/invalid-password': 'Usuario NO registrado o contraseña no válida',
+    'auth/wrong-password': 'Usuario NO registrado o contraseña no válida',
+    'auth/missing-email': 'La dirección de correo electrónico no es válida',
+    'auth/invalid-email': 'La dirección de correo electrónico no es válida',
+    'permission-denied': 'Permisos insuficientes o colección inexistente',
+}

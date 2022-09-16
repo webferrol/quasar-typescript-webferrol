@@ -2,6 +2,7 @@ import { date } from 'quasar';
 import { defineStore } from "pinia";
 import { auth } from "src/firebase";
 import { signInWithEmailAndPassword, onAuthStateChanged, updateProfile, updateEmail, sendPasswordResetEmail, updatePassword, signOut } from "firebase/auth";
+import { uploadBlobFile, getURL } from 'src/firebase/storage';
 import { User, errorMessages } from './models';
 
 
@@ -10,6 +11,10 @@ interface StoreUsers {
     loading: boolean[],
     error: any,
     ok: any,
+}
+interface Profile {
+    displayName?: string;
+    photoURL?: string;
 }
 
 export const useStoreUsers = defineStore('users', {
@@ -101,6 +106,43 @@ export const useStoreUsers = defineStore('users', {
                 this.user = null;
             } catch (error) {
                 console.log(error);
+            }
+        },
+        /**
+         * Este método nos permite actualizar la contraseña del usuario registrado
+         * @param password - Nueva contraseña
+         */
+        async onUpdatePassword(password: string) {
+            if (auth.currentUser !== null)
+                await updatePassword(auth.currentUser, password);
+        },
+        /**
+         * Función que permite cambiar el correo electrónico del usuario logueado
+         * @param email - Correo electrónico
+         */
+        async onUpdateEmail(email: string) {
+            if (auth.currentUser !== null)
+                await updateEmail(auth.currentUser, email);
+        },
+        /**
+         * 
+         * @param p_profile - Perfil de usuario
+         * @param p_profile.displayName - Nombre de usuario
+         * @param p_profile.email - Correo electrónico
+         */
+        async onUpdateProfile(p_profile: Profile) {
+            if (auth.currentUser !== null) {
+                await updateProfile(auth.currentUser, p_profile);
+                this.user = { ...this.user, ...p_profile };
+            }
+        },
+        async onUploadProfile(file: any) {
+            if(this.user){
+                const response = await uploadBlobFile(file, `profiles/${this.user.uid}`);
+                const url = await getURL(`profiles/${this.user.uid}`);
+                const profile = { photoURL: url };
+                await this.onUpdateProfile(profile);
+                this.user = { ...this.user, ...profile };
             }
         },
     },

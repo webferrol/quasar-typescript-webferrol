@@ -60,16 +60,16 @@ const { onLogout } = useLogout();
 //Menú lateral
 const navMenuBackend: NavMenuBackendProps[] = [
   {
-    title: 'User profile',
-    caption: 'Perfil de usuario',
-    icon: 'badge',
-    to: { name: 'UserProfile' }
-  },
-  {
     title: 'Dashboard',
     caption: 'Escritorio principal',
     icon: 'dashboard',
     to: { name: 'HomeAdmin' }
+  },
+  {
+    title: 'User profile',
+    caption: 'Perfil de usuario',
+    icon: 'badge',
+    to: { name: 'UserProfile' }
   },
   {
     title: 'Curriculum vitae',

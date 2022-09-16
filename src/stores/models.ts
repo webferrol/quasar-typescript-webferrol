@@ -57,4 +57,5 @@ export const errorMessages: PropertyMaps = {
     'auth/missing-email': 'La dirección de correo electrónico no es válida',
     'auth/invalid-email': 'La dirección de correo electrónico no es válida',
     'permission-denied': 'Permisos insuficientes o colección inexistente',
+    'auth/requires-recent-login': 'Para actualizar el correo electrónico o contraseña debes loguearte de nuevo',
 }

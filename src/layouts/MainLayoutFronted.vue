@@ -32,9 +32,9 @@
       -->
                 <!-- Descomentar si queremos usar el modelo "tab"
                 <q-tabs v-model="tab" shrink> -->
-                <q-tabs shrink>
+                <!-- <q-tabs shrink>
                     <q-route-tab no-caps name="tab1" :to="{name: 'WorkExperience'}" label="Experiencia laboral" />
-                </q-tabs>
+                </q-tabs> -->
             </q-toolbar>
         </q-footer>
 

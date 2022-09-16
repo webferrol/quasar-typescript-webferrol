@@ -35,14 +35,14 @@
           </q-item>
         </template>
         <q-separator inset spaced />
-        <q-item-label header>Archivos</q-item-label>
-        <q-item clickable v-close-popup tabindex="0">
+        <q-item-label header>Curriculum Vitae</q-item-label>
+        <q-item clickable v-close-popup tabindex="0" :to="{name:'WorkExperience'}">
           <q-item-section avatar>
             <q-avatar icon="assignment" color="primary" text-color="white" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>Curriculum</q-item-label>
-            <q-item-label caption>February 22, 2016</q-item-label>
+            <q-item-label>Experiencia laboral</q-item-label>
+            <q-item-label caption>Programador, docente</q-item-label>
           </q-item-section>
           <q-item-section side>
             <q-icon name="info" />

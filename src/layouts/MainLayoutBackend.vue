@@ -5,7 +5,7 @@
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title>
-          <q-btn icon="home" no-caps flat color="primary" text-color="white" label="Ir a Frontend" size="md"
+          <q-btn icon="home" no-caps flat color="primary" text-color="white" label="Ir a Front-end" size="md"
             :to="{name: 'Home'}" />
         </q-toolbar-title>
 
@@ -33,7 +33,9 @@
         <q-item>
           <LoginAvatar></LoginAvatar>
         </q-item>
-        <NavMenuBackend v-for="to of navMenuBackend" :key="to.title" v-bind="to"></NavMenuBackend>
+        <NavItemMenu v-for="to of navMenuBackend" :key="to.title" v-bind="to"></NavItemMenu>       
+      </q-list>
+      <q-list>
         <q-separator />
         <EssentialLink v-for="link in essentialLinks" :key="link.title" v-bind="link" />
       </q-list>
@@ -49,10 +51,10 @@
 import { ref } from 'vue';
 //Components
 import EssentialLink, { EssentialLinkProps } from 'components/EssentialLink.vue';
-import NavMenuBackend, { NavMenuBackendProps } from 'src/components/NavMenuBackend.vue';
 import LoginAvatar from 'src/components/LoginAvatar.vue';
 //Composables
 import { useLogout } from '../composables/logout.hook';
+import NavItemMenu, {NavMenuBackendProps} from 'src/components/NavItemMenu.vue';
 
 //Método para cerrar sesión
 const { onLogout } = useLogout();
@@ -81,7 +83,8 @@ const navMenuBackend: NavMenuBackendProps[] = [
     title: 'Curriculum vitae',
     caption: 'Nueva Experiencia',
     icon: 'assignment_add',
-    to: { name: 'NewExperience' }
+    to: { name: 'NewExperience' },
+    insetLevel: 1,
   },
 ];
 //Enlaces del menú lateral
@@ -91,6 +94,12 @@ const essentialLinks: EssentialLinkProps[] = [
     caption: 'Material Icons',
     icon: 'palette',
     link: 'https://fonts.google.com/icons'
+  },
+  {
+    title: 'Front-end Mentor',
+    caption: 'Práctica de desarrollo',
+    icon: 'code',
+    link: 'https://www.frontendmentor.io/'
   },
   {
     title: 'Docs',

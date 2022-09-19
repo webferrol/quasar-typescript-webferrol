@@ -41,16 +41,10 @@
                 <q-toolbar-title>
                     <login-avatar></login-avatar>
                 </q-toolbar-title>
-                <!--
-        notice shrink property since we are placing it
-        as child of QToolbar
-      -->
-                <!-- Descomentar si queremos usar el modelo "tab"
-                <q-tabs v-model="tab" shrink> -->
-                <!-- <q-tabs shrink>
-                    <q-route-tab no-caps name="tab1" :to="{name: 'WorkExperience'}" label="Experiencia laboral" />
-                </q-tabs> -->
-            </q-toolbar>
+                <!-- linkedin -->
+                <the-linkedin></the-linkedin>
+                <!-- //linkedin -->
+            </q-toolbar>           
         </q-footer>
 
     </q-layout>
@@ -62,7 +56,8 @@ import type { Ref } from 'vue';
 //Componentes
 import LoginAvatar from '../components/LoginAvatar.vue';
 import NavSign from 'src/components/NavSign.vue';
-import NavItemMenu, {NavMenuBackendProps} from 'src/components/NavItemMenu.vue';
+import NavItemMenu, { NavMenuBackendProps } from 'src/components/NavItemMenu.vue';
+import TheLinkedin from 'src/components/TheLinkedin.vue';
 
 const menuState: Ref<boolean> = ref(false);//Detectamos si el menú está abierto o cerrado
 const icon = computed((): string => !menuState.value ? 'menu' : 'menu_open');//Según el estado del menú (abierto/cerrado) insertamos un icono u otro
@@ -72,7 +67,7 @@ const navItems: NavMenuBackendProps[] = [
         title: 'Curriculum Vitae',
         caption: 'Experiencia laboral',
         icon: 'assignment',
-        to: {name:'WorkExperience'}
+        to: { name: 'WorkExperience' }
     }
 ];
 

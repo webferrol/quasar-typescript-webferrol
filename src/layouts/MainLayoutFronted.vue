@@ -64,8 +64,8 @@ const icon = computed((): string => !menuState.value ? 'menu' : 'menu_open');//S
 
 const navItems: NavMenuBackendProps[] = [
     {
-        title: 'Curriculum Vitae',
-        caption: 'Experiencia laboral',
+        title: 'Experiencia laboral',
+        caption: 'Curriculum Vitae',
         icon: 'assignment',
         to: { name: 'WorkExperience' }
     }

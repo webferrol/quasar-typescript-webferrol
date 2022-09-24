@@ -6,9 +6,9 @@
           <img src="~/assets/banner1200x800.jpg" alt="WebFerrol">
         </template>
         <template v-slot:content>
-          <h2 class="q-pa-sm text-h6 text-grey-3 text-center text-weight-light bg-blue-8 rounded-borders">
-            Tecnologías utilizadas en este Portafolio
-          </h2>
+          <q-btn :to="{name:'WorkExperience'}" color="red" icon="cast_for_education" icon-right="send" label="Experiencia en formación" 
+
+/>
         </template>
       </q-parallax>
     </div>
@@ -23,7 +23,7 @@
           <em>framework</em> con todas las funciones.
         </template>
       </card-framework>
-      <card-framework src="https://cdn.quasar.dev/logo-v2/svg/logo.svg" title="Quasar"
+      <card-framework :images="[{src:'https://cdn.quasar.dev/logo-v2/svg/logo.svg',alt:'Quasar',href:'https://quasar.dev'}]" title="Quasar"
         caption="Más allá de un framework">
         <template v-slot:header>
           <h2 class="text-h6">El framework todo terreno</h2>
@@ -34,7 +34,7 @@
           sabores: <abbr title="Progresive Web app">PWA</abbr>, <abbr title="Browser Extension">BEX</abbr>.
         </template>
       </card-framework>
-      <card-framework :src="firebaseIco" title="Firebase">
+      <card-framework :images="[{src:firebaseIco,alt:'Firebase',href:'https://firebase.google.com'}]" title="Firebase">
         <template v-slot:header>
           <h2 class="text-h6">Make your app the best it can be </h2>
         </template>

@@ -2,9 +2,15 @@
    <q-card class="my-card">
       <q-item>
         <q-item-section avatar>
-          <q-avatar square>
-            <img :src="src" :alt="title">
-          </q-avatar>
+          <div class="row">
+            <template v-for="(item,key) of images" :key="key">
+              <q-btn :href="item.href" target="_blank" flat dense rounded>
+                <q-avatar square>
+                  <img :src="item.src" :alt="item.alt" :title="item.alt">
+                </q-avatar>
+              </q-btn>
+            </template>
+          </div>
         </q-item-section>
 
         <q-item-section>
@@ -28,14 +34,24 @@
 </template>
 
 <script setup lang="ts">
+interface Img{
+  src: string;
+  alt?: string;
+  href: string;
+}
 interface CardFrameworkProps{
-  src?: string;
+  images?: Img[];
   title?: string;
   caption?:string|boolean;
 }
 withDefaults(defineProps<CardFrameworkProps>(),{
-  src: 'https://upload.wikimedia.org/wikipedia/commons/9/95/Vue.js_Logo_2.svg',
-  title: 'Vue',
+  // default value for array (as for object) must be a function
+  images: () => [
+    {src:'https://upload.wikimedia.org/wikipedia/commons/9/95/Vue.js_Logo_2.svg',
+    alt:'Vue',href:'https://vuejs.org/'},
+    {src:'https://pinia.vuejs.org/logo.svg',alt:'Pinia',href:'https://pinia.vuejs.org/'}
+  ],
+  title: 'Vue & Pinia',
 });
 </script>
 
